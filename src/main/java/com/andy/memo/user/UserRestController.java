@@ -23,15 +23,15 @@ public class UserRestController {
 	@PostMapping("/join")
 	public Map<String, String> join(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
 			@RequestParam("name") String name, @RequestParam("email") String email) {
-		
+
 		Map<String, String> resultMap = new HashMap<>();
-		
+
 		if (userService.addUser(loginId, password, name, email)) {
-			resultMap.put("result","success");
+			resultMap.put("result", "success");
 		} else {
-			resultMap.put("result","fail");
+			resultMap.put("result", "fail");
 		}
-		
+
 		return resultMap;
 
 	}

@@ -2,7 +2,9 @@ package com.andy.memo.user.service;
 
 import org.springframework.stereotype.Service;
 
-import com.andy.memo.user.reposiitory.UserRepository;
+import com.andy.memo.user.repository.UserRepository;
+
+import common.MD5HashingEncoder;
 
 @Service
 public class UserService {
@@ -19,12 +21,19 @@ public class UserService {
 
 	// 사용자 추가 기능
 	public boolean addUser(String logIn, String password, String name, String email){
+		
+		// 3메서드에 static적으면 객체 생성 필요없음 MD5HashingEncoder encoder = new MD5HashingEncoder(); // 1객체 생성 
+		
+		 String hasgingPassword = MD5HashingEncoder.encode(password); // 2한번 쓰려고 객체를 하나? MD5 Class 에 static ㄱㄱ
+		
 		int count = userRepository.insertUser(logIn, password, name, email);
+		
 		if(count == 1) {
 			return true;
 		} else {
 			return false;
 		}
+		
 	}
 	
 	
