@@ -3,6 +3,7 @@ package com.andy.memo.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +22,14 @@ public class UserRestController {
 	}
 
 	@PostMapping("/join")
-	public Map<String, String> join(@RequestParam("loginId") String loginId, @RequestParam("password") String password,
-			@RequestParam("name") String name, @RequestParam("email") String email) {
+	public Map<String, String> join(
+			@RequestParam("email") String email
+			, @RequestParam("password") String password
+			,@RequestParam("name") String name
+			, @RequestParam("username") String username) {
 
 		Map<String, String> resultMap = new HashMap<>();
-
-		if (userService.addUser(loginId, password, name, email)) {
+		if (userService.addUser(email, password, name, username)) {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
@@ -36,4 +39,18 @@ public class UserRestController {
 
 	}
 
+	@GetMapping("/duplicate-id")
+	public Map<String, Boolean> isDuplicateId(@RequestParam String username) {
+		
+		Map<String, Boolean> resultMap = new HashMap<>();
+		if (userService.isDuplicateId(username)) {
+			resultMap.put("isDuplicate", true);
+		} else {
+			resultMap.put("isDuplicate", false);
+		}
+		
+		return resultMap;
+		
+	}
+	
 }
