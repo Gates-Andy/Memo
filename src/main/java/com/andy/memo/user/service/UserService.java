@@ -2,6 +2,7 @@ package com.andy.memo.user.service;
 
 import org.springframework.stereotype.Service;
 
+import com.andy.memo.user.domain.User;
 import com.andy.memo.user.repository.UserRepository;
 
 import common.MD5HashingEncoder;
@@ -44,6 +45,15 @@ public class UserService {
 		} else {
 			return true;
 		}
+
+	}
+
+	// login
+	public User getUser(String username, String password) {
+		
+		String hashingPassword = MD5HashingEncoder.encode(password);
+		
+		return userRepository.selectUser(username, hashingPassword);
 
 	}
 }

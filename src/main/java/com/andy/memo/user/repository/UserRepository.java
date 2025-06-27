@@ -3,6 +3,8 @@ package com.andy.memo.user.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.andy.memo.user.domain.User;
+
 @Mapper
 public interface UserRepository {
 	public int insertUser(
@@ -12,6 +14,9 @@ public interface UserRepository {
 			,@Param("username") String username);
 	
 	public int selectCountByUsername(@Param("username") String username);
+	//login
+	public User selectUser(@Param("username") String username, @Param("password") String password);
+	
 }
 
 

@@ -24,13 +24,33 @@
 		)
 	</insert>
 
-	<select id="selectCountByUsername" parameterType="string" resultType="int">
+	<select id="selectCountByUsername" parameterType="string"
+		resultType="int">
 		SELECT
-			count(*)
+		count(*)
 		FROM
-			`user`
+		`user`
 		WHERE
-			`username` = #{username}
+		`username` = #{username}
 	</select>
-	
+
+	<select id="selectUser" parameterType="map"
+		resultType="com.andy.memo.user.domain.User">
+		SELECT
+		`id`
+		,`username`
+		,`password`
+		,`name`
+		,`email`
+		,`createdAt`
+		,`updatedAt`
+		FROM
+		`user`
+		WHERE
+		`username` = #{username}
+		AND
+		`password` = #{password}
+
+	</select>
+
 </mapper>

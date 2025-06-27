@@ -1,24 +1,25 @@
 @charset "UTF-8";
 
-#wrap{
-	width:1200px;
-	height:800px;
-	margin: 0 auro;
+#wrap {
+	width: 1200px;
+	height: 800px;
+	margin: 0 auto;
 }
 
-header{
-	height:100px;
+header {
+	height: 100px;
 }
 
-.contents > .user-box{
+.contents>.user-box {
 	width: 400px;
-	height:500px;
+	height: 500px;
+	margin: 0 auto; /* 추가: 수평 중앙 정렬 */
 }
 
-footer{
-	height:100px;
+footer {
+	height: 100px;
 }
 
-.memo-bg{
+.memo-bg {
 	background-color: #dddddd
 }
