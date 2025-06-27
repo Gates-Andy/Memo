@@ -17,7 +17,7 @@
 		<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름"> 
 		
 		<input type="text" class="form-control mt-4" id="usernameInput" placeholder="username">
-		<button type="button" class="btn btn-secondary btn-block mt-3" id="dupilicateBtn">중복확인</button>
+		<button type="button" class="btn btn-secondary btn-block mt-3" id="duplicateBtn">중복확인</button>
 		
 		<div id="duplicateText" class="small text-danger d-none">중복된 아이디 입니다.</div>
 		<div id="availableText" class="small text-success d-none">사용가능한 아이디 입니다.</div>
@@ -29,7 +29,21 @@
 </section>
 
 <script layout:fragment="script">
-	$("#dupilicateBtn").on("click", function() {
+	// 중복확인 여부 관리 변수
+	var checkDuplicate = false //전역함수 기본값
+	// 아이디 중복 여부 관리 변수
+	var isDuplicateUsername = true;
+	
+	$("#usernameInput").on("click",function(){
+		checkDuplicate = false;
+		isDuplicate = true;
+		
+		$("#availableText").addClass("d-none");
+		$("#duplicateText").addClass("d-none");
+		
+	});
+	
+	$("#duplicateBtn").on("click", function() {
 		let username = $("#usernameInput").val();
 
 		if (username === "") {
@@ -42,16 +56,19 @@
 			url : "/user/duplicate-id",
 			data : {"username" : username
 			},
-			successs : function(response) {
-				if (response.isDuplicate) {
-					//중복됨
-					$("#duplicateText").removeClass("d-none");
-					$("#availableText").addClass("d-none");
-				} else {
-					//중복안됨
-					$("#availableText").removeClass("d-none");
-					$("#duplicateText").addClass("d-none");
-				}
+			success: function(response) {
+			    checkDuplicate = true; // 확인됨
+			    isDuplicateUsername = response.isDuplicate;
+
+			    if (response.isDuplicate) {
+			        // 중복된 경우
+			        $("#duplicateText").removeClass("d-none");
+			        $("#availableText").addClass("d-none");
+			    } else {
+			        // 사용 가능한 경우
+			        $("#availableText").removeClass("d-none");
+			        $("#duplicateText").addClass("d-none");
+			    }
 			},
 			error : function() {
 				alert("중복확인 에러");
@@ -66,12 +83,23 @@
 		let passwordConfirm = $("#passwordConfirmInput").val();
 		let name = $("#nameInput").val();
 		let email = $("#emailInput").val();
-
-		if (username === "") {
-			alert("아이디를 입력하세요");
+		
+		if (email === "") {
+			alert("이메일을 입력하세요");
 			return;
 		}
-
+		
+		// 중복확인 여부
+		if(!checkDuplicate){
+			alert("아이디 중복확인을 해주세요");
+			return;
+		}
+		// 아이디 중복여부
+		if(isDuplicateUsername){
+			alert("아이디가 중복되었습니다");
+			return ;
+		}
+		
 		if (password === "") {
 			alert("비밀번호를 입력하세요");
 			return;
@@ -86,12 +114,12 @@
 			alert("이름을 입력하세요");
 			return;
 		}
-
-		if (email === "") {
-			alert("이메일을 입력하세요");
+		
+		if (username === "") {
+			alert("아이디를 입력하세요");
 			return;
 		}
-
+		
 		$.ajax({
 			type : "POST",
 			url : "/user/join",
