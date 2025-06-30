@@ -2,51 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/default}">
-
-<section layout:fragment="contents" class="contents justify-content-center">
-
+<!-- 기본 레이아웃을 가져와서 사용할 것을 선언 -->
+<!-- 기본 레이아웃의 contents 영역에 삽입될 본문 내용 정의 -->
+<section layout:fragment="contents"
+	class="contents justify-content-center">
+	<!-- layout:fragment="contents" 
+	→ default.html 안에 있는 
+	<th:block layout:fragment="contents">  자리에 
+	이 section 내용을 삽입한다는 뜻이에요. -->
 	<div class="user-box my-5 p-5 rounded-lg">
 
 		<h1 class="text-center">회원 가입</h1>
+		<div class="d-flex">
+			<input type="text" class="form-control mt-4" id="loginInput" placeholder="아이디">
+			<button type="button" class="btn btn-secondary form-control mt-3" id="duplicateBtn">중복확인</button>
+		</div>
 
-		<input type="text" class="form-control mt-2" id="emailInput" placeholder="이메일">
-		
-		<input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호"> 
-		<input type="password" class="form-control mt-2" id="passwordConfirmInput" placeholder="비밀번호 확인"> 
-		
-		<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름"> 
-		
-		<input type="text" class="form-control mt-4" id="usernameInput" placeholder="username">
-		<button type="button" class="btn btn-secondary btn-block mt-3" id="duplicateBtn">중복확인</button>
-		
-		<div id="duplicateText" class="small text-danger d-none">중복된 아이디 입니다.</div>
-		<div id="availableText" class="small text-success d-none">사용가능한 아이디 입니다.</div>
-		
-		<button type="button" class="btn btn-secondary btn-block mt-3" id=joinBtn>가입</button>
+		<input type="text" class="form-control mt-2" id="emailInput"
+			placeholder="이메일"> 
+			<input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
+
+		<input type="password" class="form-control mt-2"
+			id="passwordConfirmInput" placeholder="비밀번호 확인"> 
+			<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
+
+		<div id="duplicateText" class="small text-danger d-none">중복된 아이디
+			입니다.</div>
+		<div id="availableText" class="small text-success d-none">사용가능한
+			아이디 입니다.</div>
+
+		<button type="button" class="btn btn-secondary btn-block mt-3"
+			id=joinBtn>가입</button>
 
 	</div>
 
 </section>
 
 <script layout:fragment="script">
-	// 중복확인 여부 관리 변수
-	var checkDuplicate = false //전역함수 기본값
-	// 아이디 중복 여부 관리 변수
-	var isDuplicateUsername = true;
-	
-	$("#usernameInput").on("click",function(){
-		checkDuplicate = false;
-		isDuplicate = true;
-		
-		$("#availableText").addClass("d-none");
-		$("#duplicateText").addClass("d-none");
-		
-	});
-	
-	$("#duplicateBtn").on("click", function() {
-		let username = $("#usernameInput").val();
+	// 중복확인 여부 관리 변수 - 사용자가 중복 확인 버튼을 누르지 않고 가입 버튼을 눌렀을 때를 막기 위해서
+	var checkDuplicate = false //전역함수 기본값 중복확인 버튼을 눌렀는지 여부. 기본은 false.
+	// 아이디 중복 여부 관리 변수 -중복 확인은 했지만 중복된 아이디면 가입 불가이므로
+	var isDuplicateloginId = true; // 기본값은 '중복된 상태'로 설정해서 중복확인을 강제함.
 
-		if (username === "") {
+	$("#loginIdInput").on("click", function() {
+
+		checkDuplicate = false; // 중복확인 다시 해야 하므로 초기화
+		isDuplicate = true; // 아직 중복 여부 모름 → 일단 true로 초기화
+
+		$("#availableText").addClass("d-none"); // 초록 메시지 숨김
+		$("#duplicateText").addClass("d-none"); // 빨간 메시지 숨김
+
+	});
+
+	$("#duplicateBtn").on("click", function() {
+
+		let loginId = $("#loginIdInput").val();
+
+		if (loginId === "") {
 			alert("아이디를 입력하세요");
 			return;
 		}
@@ -54,21 +66,22 @@
 		$.ajax({
 			type : "get",
 			url : "/user/duplicate-id",
-			data : {"username" : username
+			data : {
+				"loginId" : loginId
 			},
-			success: function(response) {
-			    checkDuplicate = true; // 확인됨
-			    isDuplicateUsername = response.isDuplicate;
+			success : function(response) {
+				checkDuplicate = true; // 확인됨
+				isDuplicateloginId = response.isDuplicate;
 
-			    if (response.isDuplicate) {
-			        // 중복된 경우
-			        $("#duplicateText").removeClass("d-none");
-			        $("#availableText").addClass("d-none");
-			    } else {
-			        // 사용 가능한 경우
-			        $("#availableText").removeClass("d-none");
-			        $("#duplicateText").addClass("d-none");
-			    }
+				if (response.isDuplicate) {
+					// 중복된 경우
+					$("#duplicateText").removeClass("d-none");
+					$("#availableText").addClass("d-none");
+				} else {
+					// 사용 가능한 경우
+					$("#availableText").removeClass("d-none");
+					$("#duplicateText").addClass("d-none");
+				}
 			},
 			error : function() {
 				alert("중복확인 에러");
@@ -78,28 +91,28 @@
 	});
 
 	$("#joinBtn").on("click", function() {
-		let username = $("#usernameInput").val();
+		let loginId = $("#loginIdInput").val();
 		let password = $("#passwordInput").val();
 		let passwordConfirm = $("#passwordConfirmInput").val();
 		let name = $("#nameInput").val();
 		let email = $("#emailInput").val();
-		
+
 		if (email === "") {
 			alert("이메일을 입력하세요");
 			return;
 		}
-		
+
 		// 중복확인 여부
-		if(!checkDuplicate){
+		if (!checkDuplicate) {
 			alert("아이디 중복확인을 해주세요");
 			return;
 		}
 		// 아이디 중복여부
-		if(isDuplicateUsername){
+		if (isDuplicateloginId) {
 			alert("아이디가 중복되었습니다");
-			return ;
+			return;
 		}
-		
+
 		if (password === "") {
 			alert("비밀번호를 입력하세요");
 			return;
@@ -114,20 +127,20 @@
 			alert("이름을 입력하세요");
 			return;
 		}
-		
-		if (username === "") {
+
+		if (loginId === "") {
 			alert("아이디를 입력하세요");
 			return;
 		}
-		
+
 		$.ajax({
 			type : "POST",
 			url : "/user/join",
 			data : {
-				email : email,				
+				email : email,
 				password : password,
 				name : name,
-				username : username
+				loginId : loginId
 			},
 			success : function(response) {
 				if (response.result === "success") {
@@ -141,6 +154,5 @@
 			}
 		});
 	});
-	
 </script>
 </html>

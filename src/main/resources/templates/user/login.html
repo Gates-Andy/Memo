@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/default}">
-
+	layout:decorate="~{layouts/default}"> <!-- 기본 레이아웃을 가져와서 사용할 것을 선언 -->
+	
+<!-- 기본 레이아웃의 contents 영역에 삽입될 본문 내용 정의 -->
 <section layout:fragment="contents" class="contents justify-content-center">
+	<!-- layout:fragment="contents" 
+	→ default.html 안에 있는 
+	<th:block layout:fragment="contents">  자리에 
+	이 section 내용을 삽입한다는 뜻이에요. -->
+	
 	<div class="user-box my-5 p-5 rounded-lg">
+	
 		<h1 class="text-center">로그인</h1>
-		<input type="text" class="form-control mt-4" id="usernameInput" placeholder="아이디"> 
+		
+		<input type="text" class="form-control mt-4" id="loginIdInput" placeholder="아이디"> 
+		
 		<input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
+		
 		<button type="button" class="btn btn-secondary btn-block mt-3" id="loginBtn">로그인</button>
+		
 		<div class="text-center mt-4">
 			<a href="/user/join-view">회원가입</a>
 		</div>
+		
 	</div>
 </section>
 
 <script layout:fragment="script">
 	$("#loginBtn").on("click", function() {
 
-		let username = $("#usernameInput").val();
+		let loginId = $("#loginIdInput").val();
 		let password = $("#passwordInput").val();
 
-		if (username == "") {
+		if (loginId == "") {
 			alert("아이디를 입력하세요");
 			return;
 		}
@@ -35,12 +47,12 @@
 			type : "post",
 			url : "/user/login",
 			data : {
-				"username" : username,
+				"loginId" : loginId,
 				"password" : password
 			},
 			success : function(response) {
 				if (response.result == "success") {
-					location.href = "/post/list-view";
+					location.href = "/post/timeline";
 				} else {
 					alert("아이디, 비밀번호를 확인해 주세요");
 				}

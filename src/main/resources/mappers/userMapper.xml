@@ -9,36 +9,36 @@
 		INSERT INTO
 		`user`
 		(
-		`email`
+		`loginId`
 		,`password`
 		,`name`
-		,`username`
+		,`email`
 		)
 		VALUE
 		(
-		#{email}
+		#{loginId}
 		, #{password}
-		, #{name}
 		,
-		#{username}
+		#{name}
+		, #{email}
 		)
 	</insert>
 
-	<select id="selectCountByUsername" parameterType="string"
+	<select id="selectCountByloginId" parameterType="string"
 		resultType="int">
 		SELECT
 		count(*)
 		FROM
 		`user`
 		WHERE
-		`username` = #{username}
+		`loginId` = #{loginId}
 	</select>
 
 	<select id="selectUser" parameterType="map"
 		resultType="com.andy.memo.user.domain.User">
 		SELECT
 		`id`
-		,`username`
+		,`loginId`
 		,`password`
 		,`name`
 		,`email`
@@ -47,9 +47,10 @@
 		FROM
 		`user`
 		WHERE
-		`username` = #{username}
+		`loginId` = #{loginId}
 		AND
-		`password` = #{password}
+		`password` =
+		#{password}
 
 	</select>
 

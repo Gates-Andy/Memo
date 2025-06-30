@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class User {
 	private long id;
-	private String username;
+	private String loginId;
 	private String password;
 	private String name;
 	private String email;
@@ -19,12 +19,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getloginId() {
+		return loginId;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setloginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 	public String getPassword() {

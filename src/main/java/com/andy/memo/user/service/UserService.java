@@ -22,24 +22,31 @@ public class UserService {
 
 	}
 
-	// 사용자 추가 기능
-	public boolean addUser(String email, String password, String name, String username) {
+	// 1. 회원가입
+	public boolean addUser(String email, String password, String name, String loginId) {
 
 		// 3메서드에 static적으면 객체 생성 필요없음 MD5HashingEncoder encoder = new
 		// MD5HashingEncoder(); // 1객체 생성
-		String hashingPassword = MD5HashingEncoder.encode(password); // 2한번 쓰려고 객체를 하나? MD5 Class 에 static ㄱㄱ
-		int count = userRepository.insertUser(email, hashingPassword, name, username);
+		String hashingPassword = MD5HashingEncoder.encode(password); 
+		// 2한번 쓰려고 객체를 하나? MD5 Class 에 static ㄱㄱ
+		int count = userRepository.insertUser(email, hashingPassword, name, loginId);
+		
 		if (count == 1) {
+			
 			return true;
+			
 		} else {
+			
 			return false;
+			
 		}
 
 	}
 
-	public boolean isDuplicateId(String username) {
+	// 2. 중복확인
+	public boolean isDuplicateId(String loginId) {
 
-		int count = userRepository.selectCountByUsername(username);
+		int count = userRepository.selectCountByloginId(loginId);
 		if (count == 0) {
 			return false;
 		} else {
@@ -48,12 +55,12 @@ public class UserService {
 
 	}
 
-	// login
-	public User getUser(String username, String password) {
-		
+	// 3. login
+	public User getUser(String loginId, String password) {
+
 		String hashingPassword = MD5HashingEncoder.encode(password);
-		
-		return userRepository.selectUser(username, hashingPassword);
+
+		return userRepository.selectUser(loginId, hashingPassword);
 
 	}
 }

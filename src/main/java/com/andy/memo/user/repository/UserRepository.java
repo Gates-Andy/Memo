@@ -7,16 +7,13 @@ import com.andy.memo.user.domain.User;
 
 @Mapper
 public interface UserRepository {
-	public int insertUser(
-			@Param("email") String email
-			, @Param("password") String password
-			, @Param("name") String name
-			,@Param("username") String username);
+	// 1. 회원가입
+	public int insertUser(@Param("email") String email, @Param("password") String password, @Param("name") String name, @Param("loginId") String loginId);
 	
-	public int selectCountByUsername(@Param("username") String username);
-	//login
-	public User selectUser(@Param("username") String username, @Param("password") String password);
-	
+	// 2. 중복확인
+	public int selectCountByloginId(@Param("loginId") String loginId);
+
+	// 3. 로그인
+	public User selectUser(@Param("loginId") String loginId, @Param("password") String password);
+
 }
-
-
