@@ -18,21 +18,15 @@
 			<button type="button" class="btn btn-secondary form-control mt-3" id="duplicateBtn">중복확인</button>
 		</div>
 
-		<input type="text" class="form-control mt-2" id="emailInput"
-			placeholder="이메일"> 
-			<input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
+		<input type="text" class="form-control mt-2" id="emailInput" placeholder="이메일"> <input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
 
-		<input type="password" class="form-control mt-2"
-			id="passwordConfirmInput" placeholder="비밀번호 확인"> 
-			<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
+		<input type="password" class="form-control mt-2" id="passwordConfirmInput" placeholder="비밀번호 확인"> 
+		<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
 
-		<div id="duplicateText" class="small text-danger d-none">중복된 아이디
-			입니다.</div>
-		<div id="availableText" class="small text-success d-none">사용가능한
-			아이디 입니다.</div>
+		<div id="duplicateText" class="small text-danger d-none">중복된 아이디입니다.</div>
+		<div id="availableText" class="small text-success d-none">사용가능한 아이디 입니다.</div>
 
-		<button type="button" class="btn btn-secondary btn-block mt-3"
-			id=joinBtn>가입</button>
+		<button type="button" class="btn btn-secondary btn-block mt-3" id=joinBtn>가입</button>
 
 	</div>
 
@@ -44,7 +38,7 @@
 	// 아이디 중복 여부 관리 변수 -중복 확인은 했지만 중복된 아이디면 가입 불가이므로
 	var isDuplicateloginId = true; // 기본값은 '중복된 상태'로 설정해서 중복확인을 강제함.
 
-	$("#loginIdInput").on("click", function() {
+	$("#loginInput").on("click", function() {
 
 		checkDuplicate = false; // 중복확인 다시 해야 하므로 초기화
 		isDuplicate = true; // 아직 중복 여부 모름 → 일단 true로 초기화
@@ -56,7 +50,7 @@
 
 	$("#duplicateBtn").on("click", function() {
 
-		let loginId = $("#loginIdInput").val();
+		let loginId = $("#loginInput").val();
 
 		if (loginId === "") {
 			alert("아이디를 입력하세요");

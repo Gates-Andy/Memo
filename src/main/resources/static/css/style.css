@@ -16,6 +16,12 @@ header {
 	margin: 0 auto; /* 추가: 수평 중앙 정렬 */
 }
 
+.contents>.memo-box {
+	width: 800px;
+	height: 500px;
+	margin: 0 auto; /* 추가: 수평 중앙 정렬 */
+}
+
 footer {
 	height: 100px;
 }

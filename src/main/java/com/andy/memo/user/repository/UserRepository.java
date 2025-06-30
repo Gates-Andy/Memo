@@ -8,7 +8,7 @@ import com.andy.memo.user.domain.User;
 @Mapper
 public interface UserRepository {
 	// 1. 회원가입
-	public int insertUser(@Param("email") String email, @Param("password") String password, @Param("name") String name, @Param("loginId") String loginId);
+	public int insertUser(@Param("loginId") String loginId, @Param("email") String email, @Param("password") String password, @Param("name") String name);
 	
 	// 2. 중복확인
 	public int selectCountByloginId(@Param("loginId") String loginId);
