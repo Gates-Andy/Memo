@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 public class PostRestController {
 	
-	private PostService postService;
+	private final PostService postService;
 	
 	private PostRestController(PostService postService) {
 		this.postService = postService;

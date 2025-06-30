@@ -19,19 +19,18 @@ import jakarta.servlet.http.HttpSession;
 @RestController // API를 위한 컨트롤러
 public class UserRestController {
 	private final UserService userService;
+
 	public UserRestController(UserService userService) {
 		this.userService = userService;
 	}
 
 	// 1. login
 	@PostMapping("/join")
-	public Map<String, String> join(
-			@RequestParam("loginId") String loginId
-			, @RequestParam("password") String password
-			, @RequestParam("name") String name
-			, @RequestParam("email") String email) {
+	public Map<String, String> join(@RequestParam("loginId") String loginId, @RequestParam("email") String email,
+			@RequestParam("password") String password, @RequestParam("name") String name) {
+
 		Map<String, String> resultMap = new HashMap<>();
-		if (userService.addUser(loginId, password, name, email)) {
+		if (userService.addUser(loginId, email, password, name)) {
 			resultMap.put("result", "success");
 		} else {
 			resultMap.put("result", "fail");
@@ -41,7 +40,7 @@ public class UserRestController {
 
 	// 2. 중복확인
 	@GetMapping("/duplicate-id")
-	public Map<String, Boolean> isDuplicateId(@RequestParam String loginId) {
+	public Map<String, Boolean> isDuplicateId(@RequestParam("loginId") String loginId) {
 		Map<String, Boolean> resultMap = new HashMap<>();
 		if (userService.isDuplicateId(loginId)) {
 			resultMap.put("isDuplicate", true);
@@ -66,12 +65,11 @@ public class UserRestController {
 			// 세션은 모든 요청에서 접근하고 사용할 수 있다.
 			// 사용자를 구분할 수 있는 가밧을 저장해보자. loginId key에 값이 저장되어 있으면 로그인된 ㄴ상태다
 			session.setAttribute("userId", user.getId()); // pri DB의 user id
-			session.setAttribute("loginId", user.getName());
+			session.setAttribute("userName", user.getName());
 		} else {
 			resultMap.put("result", "fail");
 		}
 		return resultMap;
 	}
-	
-	
+
 }

@@ -10,16 +10,17 @@
 		`user`
 		(
 		`loginId`
+		,`email`
 		,`password`
 		,`name`
-		,`email`
 		)
-		VALUE
+		VALUES
 		(
 		#{loginId}
-		, #{password}
-		, #{name}
 		, #{email}
+		,
+		#{password}
+		, #{name}
 		)
 	</insert>
 
@@ -37,10 +38,10 @@
 		resultType="com.andy.memo.user.domain.User">
 		SELECT
 		`id`
-		,`loginId`
+		`loginId`
+		,`email`
 		,`password`
 		,`name`
-		,`email`
 		,`createdAt`
 		,`updatedAt`
 		FROM

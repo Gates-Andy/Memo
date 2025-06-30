@@ -10,7 +10,7 @@ import jakarta.persistence.PersistenceException;
 @Service
 public class PostService {
 
-	private PostRepository postRepository;
+	private final PostRepository postRepository;
 
 	public PostService(PostRepository postRepository) {
 		this.postRepository = postRepository;
@@ -18,8 +18,8 @@ public class PostService {
 
 	public boolean addPost(long userId, String title, String contents) {
 
-		Post post = Post.builder().userId(userId).title(title).contents(contents).build();
-
+		Post post = Post.builder().userId(userId).title(title).contents(contents).imagePath("").build();
+		// imagePath notnull이라서 공백이라도 써야하네요
 		// JPA exception 검증 후 수행
 		try {
 

@@ -24,9 +24,10 @@ public class UserService {
 
 	// 1. 회원가입
 	public boolean addUser(String loginId, String email, String password, String name) {
+
 		// 3메서드에 static적으면 객체 생성 필요없음 MD5HashingEncoder encoder = new
 		// MD5HashingEncoder(); // 1객체 생성
-		String hashingPassword = MD5HashingEncoder.encode(password); 
+		String hashingPassword = MD5HashingEncoder.encode(password);
 		// 2한번 쓰려고 객체를 하나? MD5 Class 에 static ㄱㄱ
 		int count = userRepository.insertUser(loginId, email, hashingPassword, name);
 		if (count == 1) {

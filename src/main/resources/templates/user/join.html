@@ -13,20 +13,29 @@
 	<div class="user-box my-5 p-5 rounded-lg">
 
 		<h1 class="text-center">회원 가입</h1>
+
 		<div class="d-flex">
-			<input type="text" class="form-control mt-4" id="loginInput" placeholder="아이디">
-			<button type="button" class="btn btn-secondary form-control mt-3" id="duplicateBtn">중복확인</button>
+			<input type="text" class="form-control mr-1" id="loginInput"
+				placeholder="아이디">
+			<button type="button" class="btn btn-secondary form-control ml-1"
+				id="duplicateBtn">중복확인</button>
 		</div>
 
-		<input type="text" class="form-control mt-2" id="emailInput" placeholder="이메일"> <input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
+		<input type="text" class="form-control mt-2" id="emailInput"
+			placeholder="이메일"> <input type="password"
+			class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
 
-		<input type="password" class="form-control mt-2" id="passwordConfirmInput" placeholder="비밀번호 확인"> 
-		<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
+		<input type="password" class="form-control mt-2"
+			id="passwordConfirmInput" placeholder="비밀번호 확인"> <input
+			type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
 
-		<div id="duplicateText" class="small text-danger d-none">중복된 아이디입니다.</div>
-		<div id="availableText" class="small text-success d-none">사용가능한 아이디 입니다.</div>
+		<div id="duplicateText" class="small text-danger d-none">중복된
+			아이디입니다.</div>
+		<div id="availableText" class="small text-success d-none">사용가능한
+			아이디 입니다.</div>
 
-		<button type="button" class="btn btn-secondary btn-block mt-3" id=joinBtn>가입</button>
+		<button type="button" class="btn btn-secondary btn-block mt-3"
+			id=joinBtn>가입</button>
 
 	</div>
 
@@ -85,11 +94,12 @@
 	});
 
 	$("#joinBtn").on("click", function() {
-		let loginId = $("#loginIdInput").val();
+
+		let loginId = $("#loginInput").val();
 		let password = $("#passwordInput").val();
 		let passwordConfirm = $("#passwordConfirmInput").val();
-		let name = $("#nameInput").val();
 		let email = $("#emailInput").val();
+		let name = $("#nameInput").val();
 
 		if (email === "") {
 			alert("이메일을 입력하세요");
@@ -104,6 +114,11 @@
 		// 아이디 중복여부
 		if (isDuplicateloginId) {
 			alert("아이디가 중복되었습니다");
+			return;
+		}
+
+		if (loginId === "") {
+			alert("아이디를 입력하세요");
 			return;
 		}
 
@@ -122,19 +137,14 @@
 			return;
 		}
 
-		if (loginId === "") {
-			alert("아이디를 입력하세요");
-			return;
-		}
-
 		$.ajax({
 			type : "POST",
 			url : "/user/join",
 			data : {
+				loginId : loginId,
 				email : email,
 				password : password,
-				name : name,
-				loginId : loginId
+				name : name
 			},
 			success : function(response) {
 				if (response.result === "success") {
