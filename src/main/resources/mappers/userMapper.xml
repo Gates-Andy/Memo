@@ -38,7 +38,7 @@
 		resultType="com.andy.memo.user.domain.User">
 		SELECT
 		`id`
-		`loginId`
+		,`loginId`
 		,`email`
 		,`password`
 		,`name`
@@ -49,8 +49,7 @@
 		WHERE
 		`loginId` = #{loginId}
 		AND
-		`password` =
-		#{password}
+		`password` = #{password}
 
 	</select>
 

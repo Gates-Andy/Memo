@@ -5,9 +5,10 @@ import java.time.LocalDateTime;
 public class User {
 	private long id;
 	private String loginId;
+	private String email;
 	private String password;
 	private String name;
-	private String email;
+
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
@@ -19,12 +20,20 @@ public class User {
 		this.id = id;
 	}
 
-	public String getloginId() {
+	public String getLoginId() {
 		return loginId;
 	}
 
-	public void setloginId(String loginId) {
+	public void setLoginId(String loginId) {
 		this.loginId = loginId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -41,14 +50,6 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public LocalDateTime getCreatedAt() {

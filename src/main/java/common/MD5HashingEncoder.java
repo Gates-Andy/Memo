@@ -5,31 +5,28 @@ import java.security.NoSuchAlgorithmException;
 
 public class MD5HashingEncoder {
 
-	// 문자열을 md5로 해싱한 결과 만들기
 	public static String encode(String message) {
-
 		try {
-			MessageDigest messageDigest = MessageDigest.getInstance("md5");
+			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
 
 			byte[] bytes = message.getBytes();
-
 			messageDigest.update(bytes);
 
 			byte[] digest = messageDigest.digest();
 
-			String result = "";
+			StringBuilder result = new StringBuilder();
 
 			for (int i = 0; i < digest.length; i++) {
-				// byte 연산
-				result += Integer.toHexString(digest[i] & 0xff);
+				// 항상 두 자리로 만들기
+				result.append(String.format("%02x", digest[i] & 0xff));
 			}
 
-			return result;
+			return result.toString();
 
 		} catch (NoSuchAlgorithmException e) {
-
 			e.printStackTrace();
 			return null;
 		}
 	}
 }
+

@@ -18,8 +18,8 @@ public class PostRestController {
 	
 	private final PostService postService;
 	
-	private PostRestController(PostService postService) {
-		this.postService = postService;
+	public PostRestController(PostService postService) {
+	    this.postService = postService;
 	}
 	
 	@PostMapping("/create")
