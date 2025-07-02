@@ -2,32 +2,30 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/default}">
 
-<section layout:fragment="contents" class="contents d-flex justify-content-center">
-
+<section layout:fragment="contents"
+	class="contents d-flex justify-content-center">
 	<div class="memo-box my-5">
-	
 		<h1 class="text-center">메모 입력</h1>
-		
 		<input type="text" class="form-control mb-2" id="titleInput" placeholder="제목을 입력하세요">
 		<textarea class="form-control mb-2" rows="10" id="contentsInput" placeholder="내용을 입력하세요"></textarea>
 		
-		<input type="file">
+		<input type="file" class="mt-3" id="fileInput">
 		
-		<div class="d-flex justify-content-between">
-		
+		<div class="d-flex justify-content-between mt-4">
 			<a href="/post/list-view" class="btn btn-secondary mt-3">목록으로</a>
 			<button type="button" class="btn btn-secondary" id="saveBtn">저장</button>
-
+		
 		</div>
-
 	</div>
 </section>
 
 <script layout:fragment="script">
 	$("#saveBtn").on("click", function() {
-		
+
 		let title = $("#titleInput").val();
 		let contents = $("#contentsInput").val();
+
+		let file = $("#fileInput")[0].files[0]; // 리턴받기 0번인덱스의 객체에서 files의 배열에들어가면 한개만가져오는거니 0번인덱스 한나만 가져온다.
 
 		if (title == "") {
 			alert("제목을 입력하세요");
@@ -38,15 +36,26 @@
 			alert("내용을 입력하세요");
 			return;
 		}
+		/*
+		if (!fileInput.files[0]) {
+			  alert("이미지를 선택해 주세요.");
+			  return;
+			}
+		*/
+		let formData = new FormData(); // formData 클레스 객체 생성
+		formData.append("title",title);
+		formData.append("contents",contents);
+		formData.append("imageFile",file); //let file = $("#fileInput")[0].files[0];
+		
 
 		$.ajax({
-			type : "post",
-			url : "/post/create",
-			data : {
-				"title" : title,
-				"contents" : contents
-			},
-			success : function(response) {
+			type : "post"
+			,url : "/post/create"
+			, data:formData
+			, enctype : "multipart/form-data"
+			, processData:false
+			, contentType:false
+			, success : function(response) {
 				if (response.result == "success") {
 					location.href = "/post/list-view";
 				} else {

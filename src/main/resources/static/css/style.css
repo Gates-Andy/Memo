@@ -1,31 +1,43 @@
 @charset "UTF-8";
 
 #wrap {
-	width: 1200px;
-	height: 800px;
-	margin: 0 auto;
+  width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 화면 전체 높이 */
 }
 
 header {
-	height: 100px;
+  height: 100px;
+  flex-shrink: 0; /* 축소 방지 */
 }
 
-.contents>.user-box {
-	width: 400px;
-	height: 500px;
-	margin: 0 auto; /* 추가: 수평 중앙 정렬 */
+.contents {
+  flex-grow: 1; /* 남은 공간 모두 차지 */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 100px; /* footer 높이만큼 여유 */
 }
 
-.contents>.memo-box {
-	width: 800px;
-	height: 500px;
-	margin: 0 auto; /* 추가: 수평 중앙 정렬 */
+.contents > .memo-box {
+  width: 800px;
+  height: auto;         /* ✅ 높이를 자동으로 */
+  margin: 0 auto;
+  overflow: visible;    /* ✅ 스크롤 없애기 */
+  padding-bottom: 20px; /* footer 겹침 방지용 여유 */
+}
+
+.contents > .memo-box img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 20px; /* 이미지 아래 여백 */
 }
 
 footer {
-	height: 100px;
-}
-
-.memo-bg {
-	background-color: #dddddd
+  height: 100px;
+  flex-shrink: 0; /* 축소 방지 */
 }

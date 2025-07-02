@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.andy.memo.post.domain.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long>{
-	 
-		List<Post> findAll();
+	 	// 쿼리는 안만들어도 WHERE `id`=#{} ORDER BY `id` DESC
+		public List<Post> findByUserIdOrderByIdDesc(long userId);
+
 }
