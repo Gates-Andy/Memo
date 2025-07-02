@@ -7,9 +7,11 @@ public class MD5HashingEncoder {
 
 	public static String encode(String message) {
 		try {
+
 			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
 
 			byte[] bytes = message.getBytes();
+
 			messageDigest.update(bytes);
 
 			byte[] digest = messageDigest.digest();
@@ -29,4 +31,3 @@ public class MD5HashingEncoder {
 		}
 	}
 }
-

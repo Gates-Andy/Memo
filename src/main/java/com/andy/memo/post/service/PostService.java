@@ -38,6 +38,7 @@ public class PostService {
 		
 		// imagePath notnull이라서 공백이라도 써야하네요
 		// JPA exception 검증 후 수행
+		
 		try {
 			postRepository.save(post);
 		} catch (PersistenceException e) {

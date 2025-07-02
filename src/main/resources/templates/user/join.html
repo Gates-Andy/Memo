@@ -4,8 +4,7 @@
 	layout:decorate="~{layouts/default}">
 <!-- 기본 레이아웃을 가져와서 사용할 것을 선언 -->
 <!-- 기본 레이아웃의 contents 영역에 삽입될 본문 내용 정의 -->
-<section layout:fragment="contents"
-	class="contents justify-content-center">
+<section layout:fragment="contents" class="contents justify-content-center">
 	<!-- layout:fragment="contents" 
 	→ default.html 안에 있는 
 	<th:block layout:fragment="contents">  자리에 
@@ -15,27 +14,22 @@
 		<h1 class="text-center">회원 가입</h1>
 
 		<div class="d-flex">
-			<input type="text" class="form-control mr-1" id="loginInput"
-				placeholder="아이디">
-			<button type="button" class="btn btn-secondary form-control ml-1"
-				id="duplicateBtn">중복확인</button>
+			<input type="text" class="form-control mr-1" id="loginInput" placeholder="아이디">
+			<button type="button" class="btn btn-secondary form-control ml-1" id="duplicateBtn">중복확인</button>
 		</div>
+		
+		<div id="duplicateText" class="small text-danger d-none">중복된 아이디입니다.</div>
+		<div id="availableText" class="small text-success d-none">사용가능한 아이디 입니다.</div>
+		
+		<input type="text" class="form-control mt-2" id="emailInput" placeholder="이메일"> 
+		
+		<input type="password" class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
 
-		<input type="text" class="form-control mt-2" id="emailInput"
-			placeholder="이메일"> <input type="password"
-			class="form-control mt-2" id="passwordInput" placeholder="비밀번호">
+		<input type="password" class="form-control mt-2" id="passwordConfirmInput" placeholder="비밀번호 확인"> 
+		
+		<input type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
 
-		<input type="password" class="form-control mt-2"
-			id="passwordConfirmInput" placeholder="비밀번호 확인"> <input
-			type="text" class="form-control mt-2" id="nameInput" placeholder="이름">
-
-		<div id="duplicateText" class="small text-danger d-none">중복된
-			아이디입니다.</div>
-		<div id="availableText" class="small text-success d-none">사용가능한
-			아이디 입니다.</div>
-
-		<button type="button" class="btn btn-secondary btn-block mt-3"
-			id=joinBtn>가입</button>
+		<button type="button" class="btn btn-secondary btn-block mt-3" id=joinBtn>가입</button>
 
 	</div>
 
@@ -50,7 +44,7 @@
 	$("#loginInput").on("click", function() {
 
 		checkDuplicate = false; // 중복확인 다시 해야 하므로 초기화
-		isDuplicate = true; // 아직 중복 여부 모름 → 일단 true로 초기화
+		isDuplicate = true; 	// 아직 중복 여부 모름 → 일단 true로 초기화
 
 		$("#availableText").addClass("d-none"); // 초록 메시지 숨김
 		$("#duplicateText").addClass("d-none"); // 빨간 메시지 숨김
@@ -72,9 +66,10 @@
 			data : {
 				"loginId" : loginId
 			},
+			
 			success : function(response) {
 				checkDuplicate = true; // 확인됨
-				isDuplicateloginId = response.isDuplicate;
+				isDuplicateloginId = response.isDuplicate; // true or false
 
 				if (response.isDuplicate) {
 					// 중복된 경우
@@ -86,6 +81,7 @@
 					$("#duplicateText").addClass("d-none");
 				}
 			},
+			
 			error : function() {
 				alert("중복확인 에러");
 			}
