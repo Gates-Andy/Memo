@@ -46,31 +46,32 @@ public class PostService {
 
 	}
 
-	// 로그인 후 list html에 작성 전체 행을 다 조회하는 JPA 근데 특정사용자만 로그인 한 프라이머리 키 인사람만 해야하니까 + 무슨기능인지..
+	// 로그인 후 list html에 작성 전체 행을 다 조회하는 JPA 근데 특정사용자만 로그인 한 프라이머리 키 인사람만 해야하니까 +
+	// 무슨기능인지..
 	public List<PostDto> getPostList() {
-		
-		List<Post> postList = postRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
-		
+
+		List<Post> postList = postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+
 		List<PostDto> postDtoList = new ArrayList<>();
-		
-		for(Post post:postList) {
-			
+
+		for (Post post : postList) {
+
 			User user = userService.getUserById(post.getUserId());
-			
+
 			PostDto postDto = PostDto.builder()
-			.id(post.getId())
-			.title(post.getTitle())
-			.contents(post.getContents())
-			.imagePath(post.getImagePath())
-			.createdAt(post.getCreatedAt())
-			.loginId(user.getLoginId())
-			.build();
-			
+					.id(post.getId())
+					.title(post.getTitle())
+					.contents(post.getContents())
+					.imagePath(post.getImagePath())
+					.createdAt(post.getCreatedAt())
+					.loginId(user.getLoginId())
+					.build();
+
 			postDtoList.add(postDto);
 		}
-		
+
 		return postDtoList;
-		
+
 	}
 
 	public Post getPost(long id) {

@@ -20,6 +20,6 @@ public class PostDto {
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	
-	private long userId;
+	private long userId; // 관련데이터의 프라이머리 키
 	private String loginId;
 }	
