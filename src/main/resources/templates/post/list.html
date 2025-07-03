@@ -4,30 +4,25 @@
 
 <section layout:fragment="contents"
 	class="d-flex justify-content-center">
-
 	<div class="memo-box my-5">
 
 		<h1 class="text-center">메모 리스트</h1>
 
 		<table class="table text-center my-4">
-
 			<thead>
 				<tr>
-					<td>No.</td>
-					<td>제목</td>
-					<td>작성시간</td>
+					<th>No.</th>
+					<th>제목</th>
+					<th>작성시간</th>
 				</tr>
 			</thead>
-
 			<tbody>
-				<tr th:each="memo : ${memoList}">
-					<td th:text="${memo.id}"></td>
-					<td><a th:href="|/post/detail-view?id=${memo.id}|" th:text="${memo.title}"></a></td>
-					<td th:text="${#temporals.format(memo.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
+				<tr th:each="post : ${postlist}">
+					<td th:text="${post.id}">1</td>
+					<td> <a th:href="@{/post/detail-view(id=${post.id})}" th:text="${post.title}">제목</a></td>
+					<td th:text="${#temporals.format(post.createdAt,'yyyy-MM-dd HH:mm:ss')}">2025-07-03 12:00:00</td>
 				</tr>
-
 			</tbody>
-
 		</table>
 
 		<div class="d-flex justify-content-end">

@@ -49,8 +49,25 @@
 		WHERE
 		`loginId` = #{loginId}
 		AND
-		`password` = #{password}
+		`password` =
+		#{password}
 
 	</select>
 
+	<select id="selectUserById" parameterType="Long"
+		resultType="com.andy.memo.user.domain.User">
+		SELECT
+		`id`
+		,`loginId`
+		,`email`
+		,`password`
+		,`name`
+		,`createdAt`
+		,`updatedAt`
+		FROM
+		`user`
+		WHERE
+		`id` = #{id}
+	</select>
+	
 </mapper>

@@ -1,33 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/default}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
 
-<section layout:fragment="contents"
-	class="contents d-flex justify-content-center">
+<section layout:fragment="contents" class="contents d-flex justify-content-center">
 
-	<div class="memo-box my-5">
+    <div class="memo-box my-5">
 
-		<h1 class="text-center">메모 입력</h1>
-		<!-- ${memo}는 컨트롤러에서 model에 넣은 객체 (Post)입니다 -->
-		<input type="text" class="form-control mb-2" placeholder="제목을 입력하세요" th:value="${memo.title}" value="메모 제목">
-		<!-- th:value="${memo.title}": 모델에 있는 memo.title 값을 input의 value로 설정 <input type="text">는 value 값을 속성(attribute)으로 받습니다. -->
-		<textarea class="form-control mb-2" rows="10" placeholder="내용을 입력하세요" th:text="${memo.contents}">메모 내용입니다.</textarea>
-		<!-- <textarea>는 value 속성이 아니라, 태그 사이의 내용을 사용합니다: -->
-		<img th:src="${memo.imagePath}">
-		<!-- th:src: 이미지 경로를 동적으로 지정 (예: /images/abc.jpg 등) -->
-		<input type="file">
+        <h1 class="text-center">메모 입력</h1>
 
-		<div class="d-flex justify-content-between">
+        <input type="text" class="form-control mb-2" placeholder="제목을 입력하세요" th:value="${memo.title}" />
 
-			<button type="button" class="btn btn-danger mt-3" id="saveBtn">삭제</button>
-			
-			<div>
-				<a href="/post/list-view" class="btn btn-secondary mt-3">목록으로</a>
-				<button type="button" class="btn btn-secondary mt-3" id="saveBtn">수정</button>
-			</div>
+        <textarea class="form-control mb-2" rows="10" placeholder="내용을 입력하세요" th:text="${memo.contents}">내용</textarea>
 
-		</div>
+        <img th:if="${memo.imagePath != null}" th:src="@{${memo.imagePath}}" alt="이미지" style="max-width: 100%; margin-bottom: 10px;" />
 
-	</div>
+        <input type="file" name="file" />
+
+        <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-danger mt-3">삭제</button>
+
+            <div>
+                <a href="/post/list-view" class="btn btn-secondary mt-3">목록으로</a>
+                <button type="button" class="btn btn-secondary mt-3">수정</button>
+            </div>
+        </div>
+
+    </div>
 </section>
+
 </html>

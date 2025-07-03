@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.andy.memo.post.domain.Post;
+import com.andy.memo.post.dto.PostDto;
 import com.andy.memo.post.service.PostService;
 
 import jakarta.servlet.http.HttpSession;
@@ -29,7 +30,9 @@ public class PostController {
 	}
 	
 	@GetMapping("/list-view")
-	public String postList(HttpSession session, Model model) {
+	public String postList(
+			HttpSession session
+			, Model model) {
 		
 		Object userIdObj = session.getAttribute("userId");
 		
@@ -40,15 +43,22 @@ public class PostController {
 		
 		long userId = (long) session.getAttribute("userId");
 		
-		List<Post> postlist = postService.getPostList(userId);
-		model.addAttribute("memoList", postlist);
+		List<PostDto> postlist = postService.getPostList();
+		
+		model.addAttribute("postlist", postlist);
+		
 		return "post/list";
 	}
 
 	@GetMapping("/detail-view")
-	public String postDetail(@RequestParam("id") long id, Model model) {
-		Post post = postService.getPost(id);
-		model.addAttribute("memo", post);
+	public String postDetail(
+			@RequestParam("id") long id
+			, Model model) {
+		
+		Post memo = postService.getPost(id);
+		
+		model.addAttribute("memo", memo);
+		
 		return "post/detail";
 
 	}
