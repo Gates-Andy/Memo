@@ -1,31 +1,95 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/default}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
 
-<section layout:fragment="contents" class="contents d-flex justify-content-center">
+<section layout:fragment="contents"
+	class="contents d-flex justify-content-center">
 
-    <div class="memo-box my-5">
+	<div class="memo-box my-5" th:data-id="${memo.id}" id="memoContents">
 
-        <h1 class="text-center">메모 입력</h1>
+		<h1 class="text-center">메모 입력</h1>
 
-        <input type="text" class="form-control mb-2" placeholder="제목을 입력하세요" th:value="${memo.title}" />
+		<input type="text" class="form-control mb-2" id="titleInput" placeholder="제목을 입력하세요" th:value="${memo.title}" />
 
-        <textarea class="form-control mb-2" rows="10" placeholder="내용을 입력하세요" th:text="${memo.contents}">내용</textarea>
+		<textarea class="form-control mb-2" rows="10" id="contentsInput" placeholder="내용을 입력하세요" th:text="${memo.contents}"></textarea>
 
-        <img th:if="${memo.imagePath != null}" th:src="@{${memo.imagePath}}" alt="이미지" style="max-width: 100%; margin-bottom: 10px;" />
+		<img th:if="${memo.imagePath != null}" th:src="@{${memo.imagePath}}" alt="이미지" style="max-width: 100%; margin-bottom: 10px;" /> 
+		<input type="file" name="file" />
 
-        <input type="file" name="file" />
+		<div class="d-flex justify-content-between">
+			<button type="button" class="btn btn-danger mt-3" id="deleteBtn">삭제</button>
 
-        <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-danger mt-3">삭제</button>
+			<div>
+				<a href="/post/list-view" class="btn btn-secondary mt-3">목록으로</a>
+				<button type="button" class="btn btn-secondary mt-3" id="updateBtn">수정</button>
+			</div>
+		</div>
 
-            <div>
-                <a href="/post/list-view" class="btn btn-secondary mt-3">목록으로</a>
-                <button type="button" class="btn btn-secondary mt-3">수정</button>
-            </div>
-        </div>
-
-    </div>
+	</div>
 </section>
 
+<script layout:fragment="script">
+	$("#deleteBtn").on("click", function() {
+
+		let id = $("#memoContents").data("id");
+
+		$.ajax({
+			type : "delete"
+			,url : "/post/delete"
+			,data : {
+				"id" : id
+			}
+			,success : function(response) {
+				if (response.result === "success") {
+					alert("삭제 성공!");
+					location.href = "/post/list-view";
+				} else {
+					alert("삭제 실패!");
+				}
+			}
+			,error : function() {
+				alert("삭제 에러!");
+			}
+		});
+	});
+
+	$("#updateBtn").on("click", function() {
+
+		let id = $("#memoContents").data("id");
+		let title = $("#titleInput").val();
+		let contents = $("#contentsInput").val();
+
+		if (title == "") {
+			alert("제목을 입력하세요");
+			return;
+		}
+
+		if (contents == "") {
+			alert("내용을 입력하세요");
+			return;
+		}
+
+		alert("메모가 수정되었습니다." + id + " " + title + " " + contents);
+
+		$.ajax({
+			type : "put"
+			,url : "/post/update"
+			,data : {
+				"id" : id,
+				"title" : title,
+				"contents" : contents
+			}
+			,success : function(response) {
+				if (response.result === "success") {
+					location.reload();
+				} else {
+					alert("수정 실패!");
+				}
+			}
+			,error : function() {
+				alert("수정 에러!");
+			}
+		});
+	});
+</script>
 </html>

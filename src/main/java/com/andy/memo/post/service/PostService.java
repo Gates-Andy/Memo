@@ -58,14 +58,8 @@ public class PostService {
 
 			User user = userService.getUserById(post.getUserId());
 
-			PostDto postDto = PostDto.builder()
-					.id(post.getId())
-					.title(post.getTitle())
-					.contents(post.getContents())
-					.imagePath(post.getImagePath())
-					.createdAt(post.getCreatedAt())
-					.loginId(user.getLoginId())
-					.build();
+			PostDto postDto = PostDto.builder().id(post.getId()).title(post.getTitle()).contents(post.getContents())
+					.imagePath(post.getImagePath()).createdAt(post.getCreatedAt()).loginId(user.getLoginId()).build();
 
 			postDtoList.add(postDto);
 		}
@@ -86,5 +80,51 @@ public class PostService {
 			return null;
 
 		}
+	}
+
+	public boolean updatePost(long id, String title, String contents) {
+
+		Optional<Post> optionalPost = postRepository.findById(id);
+		
+		if (optionalPost.isPresent()) {
+
+			Post post = optionalPost.get();
+
+			Post postTobuilder = post.toBuilder() // 수정한 객체를 쓰는게 아니라 그냥 새로이 만든다는개념
+			.title(title)
+			.contents(contents)
+			.build();
+
+			try {
+				postRepository.save(postTobuilder);
+			} catch (PersistenceException e) {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean deletePost(long id) {
+		
+		Optional<Post> optionalPost = postRepository.findById(id);
+		
+		if (optionalPost.isPresent()) {
+			
+			Post post = optionalPost.get();
+			
+			postRepository.delete(post);
+			
+			return true;
+			
+		} else {
+			
+			return false;
+			
+		}
+			
 	}
 }
