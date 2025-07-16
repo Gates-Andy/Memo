@@ -10,15 +10,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileManager {
 	// final 상수 퍼블릭으로 나중에 바꿈
+	//	이 클래스는 Spring Framework의 MultipartFile을 받아서, 서버의 디스크에 파일을 저장하고, 나중에 웹 브라우저에서 접근 가능한 **파일 경로(URL 형태)**를 리턴합니다.
 	// public static final String FILE_UPLOAD_PATH = "C:\\Users\\mujik\\OneDrive\\바탕 화면\\project\\upload"; 개인 pc 주소
 	public static final String FILE_UPLOAD_PATH = "D:\\ANDY_GATES\\WEB\\20250220\\springProject\\sample"; 
 													
 	// 파일 저장 기능
 	// 저장된 파일을 클라이언트가 접근할 수 있는 url 경로 return
 	public static String saveFile(long userId, MultipartFile file) {
+		
 		if (file == null) {
 			return null;
 		}
+		
 		// 파일 이름 유지
 		// 폴더 (디렉토리) 만들어서 저장
 		// 사용자 정보를 폴더 이름으로 사용
@@ -61,7 +64,7 @@ public class FileManager {
 		// 저장된 파일을 클라이언트가 접근할 수 있는 url 경로 return
 		// 실제 파일 저장 위치와 url 경로를 매칭하는 **규칙**
 		// C:\\Users\\mujik\\OneDrive\\바탕 화면\\project\\upload\\memo~/.png
-		// /images/2_89891234/test.png
+		// /images/2_89891234/test.png 웹 브라우저에서 접근 가능한 파일 경로를 반환합니다.
 		return "/images/" + directoryName + "/" + file.getOriginalFilename(); // 문자열
 
 	}
