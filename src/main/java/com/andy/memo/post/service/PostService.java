@@ -8,13 +8,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.andy.memo.common.FileManager;
 import com.andy.memo.post.domain.Post;
 import com.andy.memo.post.dto.PostDto;
 import com.andy.memo.post.repository.PostRepository;
 import com.andy.memo.user.domain.User;
 import com.andy.memo.user.service.UserService;
 
-import common.FileManager;
 import jakarta.persistence.PersistenceException;
 
 @Service

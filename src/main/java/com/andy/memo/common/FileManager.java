@@ -1,4 +1,4 @@
-package common;
+package com.andy.memo.common;
 
 import java.io.File;
 import java.io.IOException;
